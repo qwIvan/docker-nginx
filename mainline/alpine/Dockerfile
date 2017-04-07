@@ -4,6 +4,8 @@ MAINTAINER NGINX Docker Maintainers "docker-maint@nginx.com"
 
 ENV NGINX_VERSION 1.11.12
 
+ADD https://github.com/itoffshore/nginx-upstream-fair/tarball/master nginx-upstream-fair.tar.gz
+RUN tar zxf nginx-upstream-fair.tar.gz
 RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 	&& CONFIG="\
 		--prefix=/etc/nginx \
@@ -50,6 +52,7 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 		--with-compat \
 		--with-file-aio \
 		--with-http_v2_module \
+                --add-module=$(realpath *-nginx-upstream-fair-*) \
 	" \
 	&& addgroup -S nginx \
 	&& adduser -D -S -h /var/cache/nginx -s /sbin/nologin -G nginx nginx \
